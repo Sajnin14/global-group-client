@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Login = () => {
+    const { loginUser, setUser } = useContext(AuthContext);
 
-    const handleSubmit = e => {
+    const handleLogin = e => {
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
-
         console.log(email, password);
+        loginUser(email, password)
+            .then(res => {
+                setUser(res.user);
+                console.log(res.user);
+                // setTimeout(() => {
+                //     navigate('/');
+                // }, 1000);
+
+            })
+            .catch(err => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `${err.message}`,
+                });
+            })
     }
     return (
         <div>
-            <form onSubmit={handleSubmit} className="card-body w-3/4 mx-auto">
+            <form onSubmit={handleLogin} className="card-body w-3/4 mx-auto">
                 <div className="form-control">
                     <label className="label">
                         <span className="label-text">Email</span>

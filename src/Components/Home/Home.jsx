@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
 const Home = () => {
     const links = <div className='flex items-center gap-3'>
-      <li>User</li>
-      <Link to='/login'>Login</Link>
-      <Link to='/registration'>Register</Link>
+      <NavLink to='/'>User</NavLink>
+      <NavLink to='/login'>Login</NavLink>
+      <NavLink to='/registration'>Registration</NavLink>
+      {/* <Link to='/login'>Login</Link> */}
+      {/* <Link to='/registration'>Register</Link> */}
     </div>
     return (
         <div>
