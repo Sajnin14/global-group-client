@@ -1,14 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './Users.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Users = () => {
     const [usersCollection, setUsersCollection] = useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [count, setCount] = useState('');
     const [itemsPerPage, setItemsPerPage] = useState(10);
-
+    const navigate = useNavigate();
     useEffect(() => {
         axios.get(`http://localhost:5000/api/login?page=${currentPage}&size=${itemsPerPage}`)
             .then(res => {
@@ -21,7 +22,7 @@ const Users = () => {
         axios.get(`http://localhost:5000/api/login`)
             .then(res => {
                 const data = res.data;
-                setCount(data.length); 
+                setCount(data.length);
             })
     }, [])
 
@@ -48,6 +49,33 @@ const Users = () => {
         if (currentPage < pages.length - 1) {
             setCurrentPage(currentPage + 1);
         }
+    }
+
+    const handleDelete = (users) => {
+        console.log(users);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.delete(`http://localhost:5000/api/users/${users._id}`)
+                .then(res => {
+                    console.log(res.data);
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    });
+                    navigate('/login');
+                })
+                
+            }
+        });
     }
 
     return (
@@ -84,9 +112,9 @@ const Users = () => {
 
                             <td className='flex gap-3'>
                                 <Link to={`/users/${users._id}`}><button className=' underline text-green-600'>Edit</button></Link>
-                                <button className=' underline text-red-600'>Delete</button>
+                                <button onClick={() => handleDelete(users)} className=' underline text-red-600'>Delete</button>
                             </td>
-                            
+
                         </tr>)
                     }
 
