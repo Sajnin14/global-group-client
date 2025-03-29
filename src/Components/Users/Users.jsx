@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import './Users.css';
+import { Link } from 'react-router-dom';
 
 const Users = () => {
     const [usersCollection, setUsersCollection] = useState([]);
@@ -81,10 +82,11 @@ const Users = () => {
                             <td>{users.lastName}</td>
                             <td>{users.email}</td>
 
-                            <td>
-                                <button>Edit</button>
+                            <td className='flex gap-3'>
+                                <Link to={`/users/${users._id}`}><button className=' underline text-green-600'>Edit</button></Link>
+                                <button className=' underline text-red-600'>Delete</button>
                             </td>
-                            <td><button>Delete</button></td>
+                            
                         </tr>)
                     }
 

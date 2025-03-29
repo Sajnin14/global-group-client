@@ -11,6 +11,7 @@ import Registration from './auth/registration.jsx';
 import AuthProvider from './AuthProvider/AuthProvider.jsx';
 import Login from './auth/login.jsx';
 import Users from './Components/Users/Users.jsx';
+import UpdateUsers from './Components/Users/UpdateUsers.jsx';
 
 
 const router = createBrowserRouter([
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Users></Users>
+      },
+      {
+        path: '/users/:id',
+        element: <UpdateUsers></UpdateUsers>,
+        loader: ({params}) => fetch(`http://localhost:5000/api/login/${params.id}`)
       },
       {
         path: '/registration',
