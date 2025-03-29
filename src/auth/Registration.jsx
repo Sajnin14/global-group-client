@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { AuthContext } from '../AuthProvider/AuthProvider';
+import axios from 'axios';
 
 const Registration = () => {
    const {createUser} = useContext(AuthContext);
+   const navigate = useNavigate();
   const handleSubmit = e =>{
     e.preventDefault();
     const form = e.target;
@@ -23,7 +25,16 @@ const Registration = () => {
             // .then(() => {})
             // .catch(err => {
             // })
-            
+            const userInfo = {
+              firstName, lastName, email
+            }
+
+            axios.post('http://localhost:5000/api/login', userInfo)
+            .then(res => {
+              console.log(res.data);
+            })
+            navigate('/');
+
         })
         .catch(err => {
           Swal.fire({
