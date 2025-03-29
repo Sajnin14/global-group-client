@@ -4,7 +4,7 @@ import { Link, Outlet } from 'react-router-dom';
 const Home = () => {
     const links = <div className='flex items-center gap-3'>
       <li>User</li>
-      <li>Login</li>
+      <Link to='/login'>Login</Link>
       <Link to='/registration'>Register</Link>
     </div>
     return (
